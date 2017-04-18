@@ -61,7 +61,7 @@ namespace Bitcoin.Tests
             builder.AddKeys(new BitcoinSecret("93586ks3uwSAgJ6q3He4CkuXeVg1N4syvszP514TitfcA9mXjVo"));
             builder.AddCoins(outputs);
             builder.SetChange(BitcoinAddress.Create("mj5FEqrC2P4FjFNfX8q3eZ4UABWUcRNy9r"));
-            builder.Send(BitcoinAddress.Create("mwy2LRNecLfHxatdAxz1XQP2sqv8Nk3PFV"), new Money(10, MoneyUnit.BTC));
+            builder.Send(BitcoinAddress.Create("2N3rW7QtnsJPekFYvxeTxvh71CSXnYo4tNY"), new Money(22M, MoneyUnit.BTC));
             builder.SendFees(new Money(0.001M, MoneyUnit.BTC));
 
             var tr = builder.BuildTransaction(true);

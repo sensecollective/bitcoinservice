@@ -65,7 +65,7 @@ namespace BackgroundWorker.Functions
 
         [TimerTrigger("00:30:00")]
         public async Task GenerateOutputs()
-        {            
+        {
             await InternalBalanceCheck();
             await GenerateFeeOutputs();
             await GenerateAssetOutputs();
@@ -122,8 +122,12 @@ namespace BackgroundWorker.Functions
             var assets = (await _assetRepository.GetBitcoinAssets()).Where(o => !string.IsNullOrEmpty(o.AssetAddress) &&
                                                                                 !o.IsDisabled &&
                                                                                 o.IssueAllowed).ToList();
+
+            var list = new List<string>() { "USD", "LKK", "EUR", "LKK1Y", "CHF", "GBP", "JPY", "SLR", "TIME", "AUD", "RUB" };
             foreach (var asset in assets)
             {
+                if (!list.Contains(asset.Id))
+                    continue;
                 try
                 {
                     if (asset.DefinitionUrl == null)
