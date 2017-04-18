@@ -48,6 +48,12 @@ namespace BackgroundWorker.Binders
             log.WriteInfoAsync("BackgroundWorker", "App start", null, $"BaseSettings : private").Wait();
 #endif
 
+            settings.RPCServerIpAddress = "52.233.192.225";
+            settings.RPCUsername = "bitcoinrpc";
+            settings.RPCPassword = "Hasht";
+
+            settings.QBitNinjaBaseUrl = "http://52.233.192.225";
+
             ioc.RegisterInstance(log);
             ioc.RegisterInstance(settings);
             ioc.RegisterInstance(new RpcConnectionParams(settings));

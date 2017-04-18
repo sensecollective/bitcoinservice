@@ -25,6 +25,12 @@ namespace Bitcoin.Tests
         {
             var settings = GeneralSettingsReader.ReadGeneralSettingsLocal<BaseSettings>("../settings/bitcoinsettings.json");
 
+            settings.RPCServerIpAddress = "52.233.192.225";
+            settings.RPCUsername = "bitcoinrpc";
+            settings.RPCPassword = "Hasht";
+
+            settings.QBitNinjaBaseUrl = "http://52.233.192.225";
+
             var log = new LogToConsole();
 
             ContainerBuilder builder = new ContainerBuilder();
