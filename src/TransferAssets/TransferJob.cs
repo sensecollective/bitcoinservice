@@ -59,6 +59,50 @@ namespace TransferAssets
 
             var destinationAddress = BitcoinAddress.Create(destination);
 
+            var outputs = (await _bitcoinOutputsService.GetUncoloredUnspentOutputs(address, 1)).ToList();
+
+            do
+            {
+                var context = _transactionBuildContextFactory.Create(Network.Main);
+
+                var coins = outputs.Take(200).ToList();
+
+                await context.Build(async () =>
+                {
+                    var builder = new TransactionBuilder();
+
+                    builder.SetChange(bitcoinAddress);
+
+                    await _transactionBuildHelper.SendWithChange(builder, context, coins, destinationAddress, coins.Sum(o => o.TxOut.Value), destinationAddress);
+
+                    await _transactionBuildHelper.AddFee(builder, context);
+
+                    var tx = builder.BuildTransaction(true);
+
+                    var guid = Guid.NewGuid();
+
+                    await _transactionBlobStorage.AddOrReplaceTransaction(guid, TransactionBlobType.Initial, tx.ToHex());
+
+                    await _queueFactory(Constants.ClientSignMonitoringQueue).PutRawMessageAsync(new
+                    {
+                        TransactionId = guid.ToString(),
+                        PutDateTime = DateTime.UtcNow
+                    }.ToJson());
+
+                    return "";
+                });
+
+                outputs = outputs.Skip(200).ToList();
+
+            } while (outputs.Any());
+        }
+
+        private async Task TransferAssets()
+        {
+            var bitcoinAddress = BitcoinAddress.Create(address);
+
+            var destinationAddress = BitcoinAddress.Create(destination);
+            
             var outputs = await _bitcoinOutputsService.GetUnspentOutputs(address);
 
             var colored = outputs.OfType<ColoredCoin>();

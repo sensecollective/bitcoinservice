@@ -22,8 +22,13 @@ namespace TransferAssets
 
             var log = new LogToConsole();
 
+            settings.FeeRateMultiplier = 0.6M;
+
             ioc.RegisterInstance(log).As<ILog>();
             ioc.RegisterInstance(settings);
+
+            
+
             ioc.RegisterInstance(new RpcConnectionParams(settings));
 
             ioc.BindCommonServices();
