@@ -66,11 +66,11 @@ namespace LkeServices.Bitcoin
                 }));
             }
 
-            var unspentOutputs = await _spentOutputRepository.GetUnspentOutputs(coins.Select(o => new Output(o.Outpoint)));
+            //var unspentOutputs = await _spentOutputRepository.GetUnspentOutputs(coins.Select(o => new Output(o.Outpoint)));
 
-            var unspentSet = new HashSet<OutPoint>(unspentOutputs.Select(x => new OutPoint(uint256.Parse(x.TransactionHash), x.N)));
+            //var unspentSet = new HashSet<OutPoint>(unspentOutputs.Select(x => new OutPoint(uint256.Parse(x.TransactionHash), x.N)));
 
-            coins = coins.Where(o => unspentSet.Contains(o.Outpoint)).ToList();
+            //coins = coins.Where(o => unspentSet.Contains(o.Outpoint)).ToList();
             
             var address = BitcoinAddress.Create(walletAddress);
 

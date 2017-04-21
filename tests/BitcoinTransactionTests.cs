@@ -229,6 +229,5 @@ namespace Bitcoin.Tests
             return new Script(ops.ToArray());
         }
 
-
     }
 }
